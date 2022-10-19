@@ -78,7 +78,7 @@ def read_child_identifiers(element: Element) -> ChildIdentifiers:
     )
     child_identifiers.gender_current = read_text(element.find("GenderCurrent"))
     child_identifiers.person_death_date = read_text(element.find("PersonDeathDate"))
-    
+
     return child_identifiers
 
 
