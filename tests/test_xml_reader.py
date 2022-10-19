@@ -32,6 +32,7 @@ def test_read_child():
     assert child.child_characteristics.ethnicity == "ETHN"
     assert len(child.cin_details) == 2
 
+
 def test_header():
     xml = """
     <Header>
@@ -62,6 +63,7 @@ def test_header():
     assert header.serial_no == "001"
     assert header.date_time == "2023-05-23T11:14:05"
 
+
 def test_child_identifiers():
     xml = """
     <ChildIdentifiers>
@@ -86,8 +88,9 @@ def test_child_identifiers():
     assert child_identifiers.gender_current == "1"
     assert child_identifiers.person_death_date == "1980-10-08"
 
+
 def test_child_characteristics():
-    xml =  """
+    xml = """
     <ChildCharacteristics>
         <Ethnicity>ETHN</Ethnicity>   
         <Disabilities>
@@ -100,7 +103,12 @@ def test_child_characteristics():
     child_characteristics = read_child_characteristics(ET.fromstring(xml))
 
     assert child_characteristics.ethnicity == "ETHN"
-    assert child_characteristics.disabilities == ["D1", "D2", "D3",]
+    assert child_characteristics.disabilities == [
+        "D1",
+        "D2",
+        "D3",
+    ]
+
 
 def test_cin_details():
     xml = """
@@ -123,7 +131,8 @@ def test_cin_details():
     assert cin_details.reason_for_closure == "RC1"
     assert cin_details.date_of_initial_cpc == "1970-12-06"
     assert cin_details.referral_nfa == "0"
-    
+
+
 def test_assessment():
     xml = """
     <Assessments>
@@ -143,6 +152,7 @@ def test_assessment():
     assert assessment.authorisation_date == "1971-07-18"
     assert assessment.factors_identified_at_assessment == ["2A", "2B"]
 
+
 def test_cin_plan_dates():
     xml = """
     <CINPlanDates>
@@ -151,12 +161,13 @@ def test_cin_plan_dates():
     </CINPlanDates>
     """
     cin_plan_dates = read_cin_plan_dates(ET.fromstring(xml))
-    
+
     assert cin_plan_dates.start_date == "1971-01-24"
     assert cin_plan_dates.end_date == "1971-01-26"
 
+
 def test_section_47():
-    xml= """
+    xml = """
     <Section47>
         <S47ActualStartDate>1970-06-02</S47ActualStartDate>
         <InitialCPCtarget>1970-06-23</InitialCPCtarget>
@@ -170,6 +181,7 @@ def test_section_47():
     assert section_47.initial_cpc_target == "1970-06-23"
     assert section_47.date_of_initial_cpc == "1970-06-17"
     assert section_47.icpc_not_required == "false"
+
 
 def test_child_protection_plans():
     xml = """
@@ -193,4 +205,3 @@ def test_child_protection_plans():
     assert child_protection_plans.latest_category_of_abuse == "PHY"
     assert child_protection_plans.number_of_previous_cpp == "10"
     assert child_protection_plans.review_dates == ["1971-02-15", "1973-02-15"]
-    

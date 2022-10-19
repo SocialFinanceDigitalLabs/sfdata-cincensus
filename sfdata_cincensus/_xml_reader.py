@@ -48,6 +48,7 @@ def read_text(element: Element):
 def read_xml(element: Element):
     return __tag_lookup[element.tag](element)
 
+
 @xml_reader("Header")
 def read_header(element: Element) -> Header:
     header = Header()
@@ -63,6 +64,7 @@ def read_header(element: Element) -> Header:
 
     return header
 
+
 @xml_reader("ChildIdentifiers")
 def read_child_identifiers(element: Element) -> ChildIdentifiers:
     child_identifiers = ChildIdentifiers()
@@ -71,7 +73,9 @@ def read_child_identifiers(element: Element) -> ChildIdentifiers:
     child_identifiers.former_upn = read_text(element.find("FormerUPN"))
     child_identifiers.upn_unknown = read_text(element.find("UPNunknown"))
     child_identifiers.person_birth_date = read_text(element.find("PersonBirthDate"))
-    child_identifiers.expected_person_birth_date = read_text(element.find("ExpectedPersonBirthDate"))
+    child_identifiers.expected_person_birth_date = read_text(
+        element.find("ExpectedPersonBirthDate")
+    )
     child_identifiers.gender_current = read_text(element.find("GenderCurrent"))
     child_identifiers.person_death_date = read_text(element.find("PersonDeathDate"))
     """,  "",  , """
@@ -82,7 +86,9 @@ def read_child_identifiers(element: Element) -> ChildIdentifiers:
 def read_child_characteristics(element: Element) -> ChildCharacteristics:
     child_characteristics = ChildCharacteristics()
     child_characteristics.ethnicity = read_text(element.find("Ethnicity"))
-    child_characteristics.disabilities = read_text(element.findall("Disabilities/Disability"))
+    child_characteristics.disabilities = read_text(
+        element.findall("Disabilities/Disability")
+    )
     return child_characteristics
 
 
@@ -98,15 +104,23 @@ def read_cin_details(element: Element) -> CinDetails:
     cin_details.referral_nfa = read_text(element.find("ReferralNFA"))
     return cin_details
 
+
 @xml_reader("Assessments")
-def read_assessments(element:Element) -> Assessment:
+def read_assessments(element: Element) -> Assessment:
     assessment = Assessment()
     assessment.actual_start_date = read_text(element.find("AssessmentActualStartDate"))
-    assessment.internal_review_date = read_text(element.find("AssessmentInternalReviewDate"))
-    assessment.authorisation_date = read_text(element.find("AssessmentAuthorisationDate"))
-    assessment.factors_identified_at_assessment= read_text(element.findall("FactorsIdentifiedAtAssessment/AssessmentFactors"))
-    
+    assessment.internal_review_date = read_text(
+        element.find("AssessmentInternalReviewDate")
+    )
+    assessment.authorisation_date = read_text(
+        element.find("AssessmentAuthorisationDate")
+    )
+    assessment.factors_identified_at_assessment = read_text(
+        element.findall("FactorsIdentifiedAtAssessment/AssessmentFactors")
+    )
+
     return assessment
+
 
 @xml_reader("CINPlanDates")
 def read_cin_plan_dates(element: Element) -> CinPlanDates:
@@ -115,6 +129,7 @@ def read_cin_plan_dates(element: Element) -> CinPlanDates:
     cin_plan_dates.end_date = read_text(element.find("CINPlanEndDate"))
 
     return cin_plan_dates
+
 
 @xml_reader("Section47")
 def read_section_47(element: Element) -> Section47:
@@ -126,17 +141,27 @@ def read_section_47(element: Element) -> Section47:
 
     return section_47
 
+
 @xml_reader("ChildProtectionPlans")
 def read_child_protection_plans(element: Element) -> ChildProtectionPlans:
     child_protection_plans = ChildProtectionPlans()
     child_protection_plans.start_date = read_text(element.find("CPPstartDate"))
     child_protection_plans.end_date = read_text(element.find("CPPendDate"))
-    child_protection_plans.initial_category_of_abuse = read_text(element.find("InitialCategoryOfAbuse"))
-    child_protection_plans.latest_category_of_abuse = read_text(element.find("LatestCategoryOfAbuse"))
-    child_protection_plans.number_of_previous_cpp = read_text(element.find("NumberOfPreviousCPP"))
-    child_protection_plans.review_dates = read_text(element.findall("Reviews/CPPreviewDate"))
+    child_protection_plans.initial_category_of_abuse = read_text(
+        element.find("InitialCategoryOfAbuse")
+    )
+    child_protection_plans.latest_category_of_abuse = read_text(
+        element.find("LatestCategoryOfAbuse")
+    )
+    child_protection_plans.number_of_previous_cpp = read_text(
+        element.find("NumberOfPreviousCPP")
+    )
+    child_protection_plans.review_dates = read_text(
+        element.findall("Reviews/CPPreviewDate")
+    )
 
     return child_protection_plans
+
 
 @xml_reader("Child")
 def read_child(element: E) -> Child:

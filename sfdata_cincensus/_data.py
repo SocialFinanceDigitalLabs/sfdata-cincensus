@@ -39,12 +39,16 @@ class Assessment:
     actual_start_date: date = None
     internal_review_date: date = None
     authorisation_date: date = None
-    factors_identified_at_assessment: List[str,] = None
+    factors_identified_at_assessment: List[
+        str,
+    ] = None
+
 
 @dataclass
 class CinPlanDates:
     start_date: date = None
     end_date: date = None
+
 
 @dataclass
 class Section47:
@@ -52,6 +56,7 @@ class Section47:
     initial_cpc_target: date = None
     date_of_initial_cpc: date = None
     icpc_not_required: str = None
+
 
 @dataclass
 class ChildProtectionPlans:
@@ -61,6 +66,7 @@ class ChildProtectionPlans:
     latest_category_of_abuse: str = None
     number_of_previous_cpp: str = None
     review_dates: List[date] = None
+
 
 @dataclass
 class CinDetails:
