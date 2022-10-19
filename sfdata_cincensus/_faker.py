@@ -1,4 +1,5 @@
 import random
+import re
 from collections import defaultdict
 from datetime import timedelta
 
@@ -106,9 +107,23 @@ class CINFaker:
             props["cin_referral_date"] = self.random.random_date(
                 reference_date, years=17
             )
+        props.update(kwargs)
+        props["cin_plan_dates"] = self._list(
+            props, "cin_plan_dates", self.cin_plan_dates, auto=auto
+        )
+        return CinDetails(**props)
+
+    def cin_plan_dates(self, auto=True, reference_date: date = None, **kwargs):
+        if reference_date is None:
+            reference_date = self.random.random_date(years=18)
+
+        props = {}
+        if auto:
+            props["start_date"] = self.random.random_date(reference_date, years=17)
+            props["end_date"] = self.random.random_date(reference_date, years=18)
 
         props.update(kwargs)
-        return CinDetails(**props)
+        return CinPlanDates(**props)
 
     def child(self, auto=True, **kwargs):
         props = {}
@@ -126,6 +141,9 @@ class CINFaker:
             props["child_identifiers"] = self.child_identifiers(
                 auto=auto, **props.child_identifiers
             )
+        props["cin_details"] = self._list(
+            props, "cin_details", self.cin_details, auto=auto
+        )
 
         return Child(**props)
 
@@ -134,17 +152,24 @@ class CINFaker:
         if auto:
             pass
         props.update(kwargs)
-        props = SubArgs(props)
 
-        if isinstance(props.get("children"), list):
-            props["children"] = [self.child(auto=auto, **x) for x in props["children"]]
-        elif isinstance(props.get("children"), int):
-            props["children"] = [
-                self.child(auto=auto) for _ in range(props["children"])
-            ]
-        elif "children" not in props:
-            props["children"] = [
-                self.child(auto=auto) for _ in range(self.random.randint(1, 250))
-            ]
+        props = SubArgs(props)
+        props["children"] = self._list(
+            props, "children", self.child, max_num=250, auto=auto
+        )
 
         return Message(**props)
+
+    def _list(self, props, prop_name, func, min_num=1, max_num=5, auto=True):
+
+        if isinstance(props.get(prop_name), list):
+            return [func(auto=auto, **x) for x in props[prop_name]]
+
+        elif isinstance(props.get(prop_name), int):
+            return [func(auto=auto) for _ in range(props[prop_name])]
+        elif prop_name not in props:
+            return [
+                func(auto=auto) for _ in range(self.random.randint(min_num, max_num))
+            ]
+        else:
+            return props.get(prop_name)
