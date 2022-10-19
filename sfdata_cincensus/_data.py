@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from datetime import date, datetime
-from typing import Tuple
+from typing import List
 
 
 @dataclass
@@ -31,7 +31,7 @@ class ChildIdentifiers:
 @dataclass
 class ChildCharacteristics:
     ethnicity: str = None
-    disabilities: Tuple[str, ...] = None
+    disabilities: List[str] = None
 
 
 @dataclass
@@ -39,7 +39,33 @@ class Assessment:
     actual_start_date: date = None
     internal_review_date: date = None
     authorisation_date: date = None
-    factors_identified_at_assessment: Tuple[str] = None
+    factors_identified_at_assessment: List[
+        str,
+    ] = None
+
+
+@dataclass
+class CinPlanDates:
+    start_date: date = None
+    end_date: date = None
+
+
+@dataclass
+class Section47:
+    actual_start_date: date = None
+    initial_cpc_target: date = None
+    date_of_initial_cpc: date = None
+    icpc_not_required: str = None
+
+
+@dataclass
+class ChildProtectionPlans:
+    start_date: date = None
+    end_date: date = None
+    initial_category_of_abuse: str = None
+    latest_category_of_abuse: str = None
+    number_of_previous_cpp: str = None
+    review_dates: List[date] = None
 
 
 @dataclass
@@ -50,17 +76,18 @@ class CinDetails:
     cin_closure_date: date = None
     reason_for_closure: str = None
     date_of_initial_cpc: date = None
-    assessments: Tuple[Assessment] = None
+    referral_nfa: str = None
+    assessments: List[Assessment] = None
 
 
 @dataclass
 class Child:
     child_identifiers: ChildIdentifiers = None
     child_characteristics: ChildCharacteristics = None
-    cin_details: Tuple[CinDetails] = None
+    cin_details: List[CinDetails] = None
 
 
 @dataclass
 class Message:
     header: Header = None
-    children: Tuple[Child] = None
+    children: List[Child] = None
