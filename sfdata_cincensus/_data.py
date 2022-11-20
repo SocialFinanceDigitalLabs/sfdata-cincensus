@@ -78,6 +78,7 @@ class CinDetails:
     date_of_initial_cpc: date = None
     referral_nfa: str = None
     assessments: List[Assessment] = None
+    cin_plan_dates: List[CinPlanDates] = None
 
 
 @dataclass
@@ -85,6 +86,7 @@ class Child:
     child_identifiers: ChildIdentifiers = None
     child_characteristics: ChildCharacteristics = None
     cin_details: List[CinDetails] = None
+    
 
 
 @dataclass
